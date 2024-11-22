@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <h3 class="card-title">Add New Task</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="taskTitle" class="form-label">Task Title</label>
+                    <input type="text" name="title" id="taskTitle" class="form-control" placeholder="Enter task title" required>
+                </div>
+                <button type="submit" class="btn btn-success">Add Task</button>
+                <a href="{% url 'task_list' %}" class="btn btn-secondary">Back to List</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
