@@ -63,7 +63,31 @@ def logout(request):
    logout(request)
    return redirect('/login_page/')
 
+def register_page(request):
+   if request.method=="POST":
+      first_name= request.POST.get('first_name')
+      last_name=request.POST.get('last_name')
+      username = request.POST.get('username')
+      password = request.POST.get('password')
 
+      user= User.objects.filter(username=username)
+
+      if user.exists():
+         messages.info(request , "Username already taken")
+         return redirect('/register_page/')
+      
+      user = User.objects.create(
+         first_name=first_name,
+         last_name = last_name ,
+         username=username
+      )
+
+      user.set_password(password)
+      user.save()
+
+      messages.success(request , "Account created Successfully")
+      return redirect('/register_page/')
+   return render(request , 'task.html')
    
 
 
