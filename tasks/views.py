@@ -1,5 +1,8 @@
 from django.shortcuts import render , redirect
 from django.template.loader import get_template
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import authenticate , login
 from .models import *
 
 
@@ -35,6 +38,35 @@ def toggle_task(request , task_id):
    tasks.save()
    print(f"tasks{task_id} - After toggle: {task.completed}")
    return redirect('/task_list/')
+
+def login_page(request):
+   if request.method =="POST":
+      username=request.POST.get('username')
+      password = request.POST.get('password')
+
+      if not User.Objects.filter(username=username).exists():
+          messages.error(request, "Invalid Username")
+          return redirect('/login_page/')
+      
+      user= authenticate(username=username , password=password)
+
+      if user is None:
+         messages.error(request , "Invalid Password")
+         return redirect('/login_page/')
+      else:
+         login(request , user)
+         return redirect ('/task_list/')
+      
+   return render(request , 'login.html')  
+
+def logout(request):
+   logout(request)
+   return redirect('/login_page/')
+
+
+   
+
+
 
 
       
