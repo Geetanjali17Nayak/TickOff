@@ -2,13 +2,15 @@ from django.shortcuts import render , redirect
 from django.template.loader import get_template
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate , login
+from django.contrib.auth import authenticate , login, logout
 from .models import *
+from django.contrib.auth.decorators import login_required
 
 
 
 
 # Create your views here.
+@login_required(login_url="/login_page/")
 
 def task_list(request):
    tasks = task.objects.all()
@@ -87,7 +89,7 @@ def register_page(request):
 
       messages.success(request , "Account created Successfully")
       return redirect('/register_page/')
-   return render(request , 'task.html')
+   return render(request , 'register.html')
    
 
 
